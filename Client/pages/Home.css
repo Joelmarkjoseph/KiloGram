@@ -1,0 +1,54 @@
+body{
+  background-image: url('https://wallpapercave.com/wp/wp2044784.jpg');
+}
+.home-container {
+    text-align: center;
+    padding: 50px;
+    background: #ffffff00;
+  }
+  
+  .home-header {
+    background-color: #ffffffb6;
+    color: rgb(0, 123, 255);
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .networking-section {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+  }
+  
+  .networking-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+  }
+  
+  .icon {
+    font-size: 50px;
+    color: #0a027c;
+  }
+  
+  .networking-card h2 {
+    margin: 20px 0 10px;
+    color: #333;
+  }
+  
+  .networking-card p {
+    color: #555;
+  }
+  
+  .home-footer {
+    background-color: #ffffffc3;
+    color: rgb(0, 106, 255);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+  }
+  
