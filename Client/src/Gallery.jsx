@@ -64,7 +64,7 @@ const Gallery = () => {
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>Image Gallery</h1>
+      <h1>kIloGram</h1>
       <button onClick={() => setIsModalOpen(true)}>Add Post</button>{" "}
       {/* Add Post Button */}
       {/* Modal for Uploading Image */}
