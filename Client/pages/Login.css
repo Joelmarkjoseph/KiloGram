@@ -39,7 +39,7 @@ body {
     flex-direction: column;
   }
   
-  .login-box input[type="email"],
+  .login-box input[type="text"],
   .login-box input[type="password"] {
     padding: 15px;
     margin: 10px 0;

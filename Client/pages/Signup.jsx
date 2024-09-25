@@ -1,18 +1,44 @@
 import React, { useState } from "react";
 import "./Signup.css";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Email:", email);
-    console.log("Name:", name);
-    console.log("Username:", username);
-    console.log("Password:", password);
+
+    // Create user data object
+    const userData = {
+      name,
+      username,
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log("Registration successful:", result);
+        navigate("/login");
+        // Redirect or show success message
+      } else {
+        console.error("Registration failed:", result.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
