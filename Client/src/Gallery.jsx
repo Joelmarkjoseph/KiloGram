@@ -5,6 +5,7 @@ const Gallery = () => {
   const [images, setImages] = useState([]); // Initialize state for images
   const [selectedFile, setSelectedFile] = useState(null);
   const [userId, setUserId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -30,6 +31,7 @@ const Gallery = () => {
     await axios.post("http://127.0.0.1:5000/api/upload", formData);
     setSelectedFile(null);
     setUserId(""); // Reset user ID
+    setIsModalOpen(false); // Close the modal after upload
     window.location.reload(); // Reload to fetch new images
   };
 
@@ -61,21 +63,45 @@ const Gallery = () => {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: "center", padding: "20px" }}>
       <h1>Image Gallery</h1>
-      <form onSubmit={handleUpload}>
-        <input type="file" onChange={handleFileChange} required />
-        <input
-          type="text"
-          placeholder="User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          required
-        />
-        <input type="submit" value="Upload" />
-      </form>
+      <button onClick={() => setIsModalOpen(true)}>Add Post</button>{" "}
+      {/* Add Post Button */}
+      {/* Modal for Uploading Image */}
+      {isModalOpen && (
+        <div style={modalStyles}>
+          <div style={modalContentStyles}>
+            <span
+              onClick={() => setIsModalOpen(false)}
+              style={closeButtonStyles}
+            >
+              &times;
+            </span>{" "}
+            {/* Close button */}
+            <h2>Upload Image</h2>
+            <form onSubmit={handleUpload} style={{ marginBottom: "20px" }}>
+              <input type="file" onChange={handleFileChange} required />
+              <input
+                type="text"
+                placeholder="User ID"
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
+                required
+                style={{ margin: "0 10px" }} // Add some space between inputs
+              />
+              <input type="submit" value="Upload" />
+            </form>
+          </div>
+        </div>
+      )}
       <h2>Uploaded Images</h2>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {Array.isArray(images) && images.length > 0 ? (
           images.map((image) => (
             <div
@@ -84,11 +110,11 @@ const Gallery = () => {
                 margin: "10px",
                 border: "1px solid #ccc",
                 padding: "10px",
+                textAlign: "center",
               }}
             >
               <p>User ID: {image.user_id}</p>
-              <p>Uploaded at: {timeAgo(image.upload_time)}</p>{" "}
-              {/* Display time ago */}
+              <p>Uploaded at: {timeAgo(image.upload_time)}</p>
               <img
                 src={`http://127.0.0.1:5000/static/images/${image.filename}`}
                 alt="Gallery"
@@ -103,6 +129,36 @@ const Gallery = () => {
       </div>
     </div>
   );
+};
+
+// Styles for modal
+const modalStyles = {
+  position: "fixed",
+  zIndex: 1,
+  left: 0,
+  top: 0,
+  width: "100%",
+  height: "100%",
+  overflow: "auto",
+  backgroundColor: "rgba(0, 0, 0, 0.5)", // Black background with transparency
+};
+
+const modalContentStyles = {
+  backgroundColor: "#fefefe",
+  margin: "15% auto",
+  padding: "20px",
+  border: "1px solid #888",
+  width: "80%",
+  maxWidth: "500px", // Set a max width for the modal
+  borderRadius: "8px", // Rounded corners
+};
+
+const closeButtonStyles = {
+  color: "#aaa",
+  float: "right",
+  fontSize: "28px",
+  fontWeight: "bold",
+  cursor: "pointer",
 };
 
 export default Gallery;
