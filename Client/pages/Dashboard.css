@@ -1,0 +1,119 @@
+/* Gallery.css */
+.gallery-container {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+p{
+  color: white;
+}
+.add-post-btn {
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-post-btn:hover {
+  background-color: #007ace;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 80%;
+}
+
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.user-id-input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+}
+
+.upload-btn {
+  margin-top: 10px;
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.upload-btn:hover {
+  background-color: #007ace;
+}
+/* Image List Styles */
+.image-list {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap onto the next line */
+  justify-content: center; /* Center items in the container */
+  margin-top: 20px;
+  flex-direction: row-reverse;
+}
+
+.image-card {
+  flex: 1 0 300px; /* Flex-grow, flex-shrink, and a base width of 300px */
+  max-width: 400px; /* Limiting the maximum width of each card */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px; /* Add spacing around the cards */
+  padding: 10px;
+  text-align: left;
+}
+
+
+.image-meta {
+  margin-bottom: 10px;
+}
+
+/* Square Frame for Images */
+.gallery-img {
+  width: 100%; /* Ensure the image takes the full width of its container */
+  max-width: 400px; /* Limiting the image size for responsiveness */
+  height: 400px; /* Fixed height to enforce a square */
+  object-fit: cover; /* Crop and adjust the image to fill the square without distortion */
+  border-radius: 10px; /* Optional: rounded corners */
+}
+
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #ff1a1a;
+}

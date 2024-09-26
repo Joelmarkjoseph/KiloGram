@@ -1,37 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import NavbarAfterLogin from "../Components/NavafterLogin";
+import "./Gallery.css"; // Import the CSS file
 
 const Gallery = () => {
-  const [images, setImages] = useState([]); // Initialize state for images
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [userId, setUserId] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [imageList, setImageList] = useState([]); // Initialize state for images
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(""); // Set the logged-in user ID
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false); // State for modal visibility
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:5000/api/images");
-        setImages(response.data);
+        setImageList(response.data);
       } catch (error) {
         console.error("Error fetching images:", error);
       }
     };
+
+    // Fetch images when the component mounts
     fetchImages();
+
+    // Retrieve the logged-in user ID from local storage
+    const loggedInUserId = localStorage.getItem("userId"); // Example of retrieving userId
+    setCurrentUserId(loggedInUserId); // Set the logged-in user ID
   }, []);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setUploadedFile(event.target.files[0]);
   };
 
   const handleUpload = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("image", selectedFile);
-    formData.append("user_id", userId); // Include user ID
+    formData.append("image", uploadedFile);
+    formData.append("user_id", currentUserId); // Include user ID
+
     await axios.post("http://127.0.0.1:5000/api/upload", formData);
-    setSelectedFile(null);
-    setUserId(""); // Reset user ID
-    setIsModalOpen(false); // Close the modal after upload
+    setUploadedFile(null);
+    setIsUploadModalOpen(false); // Close the modal after upload
     window.location.reload(); // Reload to fetch new images
   };
 
@@ -39,14 +47,14 @@ const Gallery = () => {
     try {
       await axios.delete(`http://127.0.0.1:5000/api/delete/${id}`);
       // Update the state to remove the deleted image
-      setImages(images.filter((image) => image.id !== id));
+      setImageList(imageList.filter((image) => image.id !== id));
     } catch (error) {
       console.error("Error deleting image:", error);
     }
   };
 
   // Utility function to format the time ago
-  const timeAgo = (timestamp) => {
+  const formatTimeAgo = (timestamp) => {
     const now = new Date();
     const seconds = Math.floor((now - new Date(timestamp)) / 1000);
     let interval = Math.floor(seconds / 31536000);
@@ -63,102 +71,76 @@ const Gallery = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1>kiloGram</h1>
-      <button onClick={() => setIsModalOpen(true)}>Add Post</button>{" "}
-      {/* Add Post Button */}
-      {/* Modal for Uploading Image */}
-      {isModalOpen && (
-        <div style={modalStyles}>
-          <div style={modalContentStyles}>
-            <span
-              onClick={() => setIsModalOpen(false)}
-              style={closeButtonStyles}
-            >
-              &times;
-            </span>{" "}
-            {/* Close button */}
-            <h2>Upload Image</h2>
-            <form onSubmit={handleUpload} style={{ marginBottom: "20px" }}>
-              <input type="file" onChange={handleFileChange} required />
-              <input
-                type="text"
-                placeholder="User ID"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
-                required
-                style={{ margin: "0 10px" }} // Add some space between inputs
-              />
-              <input type="submit" value="Upload" />
-            </form>
-          </div>
+    <>
+      <NavbarAfterLogin />
+      <div className="gallery-wrapper">
+        <div className="upload-button-container">
+          {/* <button
+            className="upload-button"
+            onClick={() => setIsUploadModalOpen(true)}
+          >
+            Add Post
+          </button> */}
         </div>
-      )}
-      <h2>Uploaded Images</h2>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        {Array.isArray(images) && images.length > 0 ? (
-          images.map((image) => (
-            <div
-              key={image.id}
-              style={{
-                margin: "10px",
-                border: "1px solid #ccc",
-                padding: "10px",
-                textAlign: "center",
-              }}
-            >
-              <p>User ID: {image.user_id}</p>
-              <p>Uploaded at: {timeAgo(image.upload_time)}</p>
-              <img
-                src={`http://127.0.0.1:5000/static/images/${image.filename}`}
-                alt="Gallery"
-                style={{ width: "200px", height: "auto" }}
-              />
-              <button onClick={() => deleteImage(image.id)}>Delete</button>
+
+        {/* Modal for Uploading Image */}
+        {isUploadModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-box">
+              <span
+                onClick={() => setIsUploadModalOpen(false)}
+                className="modal-close-button"
+              >
+                &times;
+              </span>
+              <h2>Upload Image</h2>
+              <form onSubmit={handleUpload}>
+                <input type="file" onChange={handleFileChange} required />
+                <input
+                  type="text"
+                  placeholder="User ID"
+                  value={currentUserId}
+                  className="user-id-input"
+                  readOnly
+                />
+                <input
+                  type="submit"
+                  className="submit-upload-button"
+                  value="Upload"
+                />
+              </form>
             </div>
-          ))
-        ) : (
-          <p>No images available.</p>
+          </div>
         )}
+
+        <div className="image-gallery">
+          {Array.isArray(imageList) && imageList.length > 0 ? (
+            imageList.map((image) => (
+              <div className="image-item" key={image.id}>
+                <div className="image-details">
+                  <p>User ID: {image.user_id}</p>
+                  <p>Uploaded at: {formatTimeAgo(image.upload_time)}</p>
+                </div>
+                <img
+                  src={`http://127.0.0.1:5000/static/images/${image.filename}`}
+                  alt="Gallery"
+                  className="image-thumbnail"
+                />
+                {/* Uncomment below to add delete functionality */}
+                {/* {image.user_id === currentUserId && ( 
+                  <button className="delete-button" onClick={() => deleteImage(image.id)}>
+                    Delete
+                  </button>
+                )} */}
+              </div>
+            ))
+          ) : (
+            <p>No images available.</p>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
-};
-
-// Styles for modal
-const modalStyles = {
-  position: "fixed",
-  zIndex: 1,
-  left: 0,
-  top: 0,
-  width: "100%",
-  height: "100%",
-  overflow: "auto",
-  backgroundColor: "rgba(0, 0, 0, 0.5)", // Black background with transparency
-};
-
-const modalContentStyles = {
-  backgroundColor: "#fefefe",
-  margin: "15% auto",
-  padding: "20px",
-  border: "1px solid #888",
-  width: "80%",
-  maxWidth: "500px", // Set a max width for the modal
-  borderRadius: "8px", // Rounded corners
-};
-
-const closeButtonStyles = {
-  color: "#aaa",
-  float: "right",
-  fontSize: "28px",
-  fontWeight: "bold",
-  cursor: "pointer",
 };
 
 export default Gallery;

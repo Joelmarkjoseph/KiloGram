@@ -10,6 +10,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    
     background-image: url('https://img.freepik.com/free-vector/fingerprint-neon-background_23-2148380462.jpg?w=1060&t=st=1727293725~exp=1727294325~hmac=51b0166639d30e1ae89d8ae53876a50440662511be163f5416732c61757e3778');
     background-size: cover;
     background-position: center;
@@ -47,6 +48,7 @@ body {
     border-radius: 5px;
     font-size: 1rem;
     width: 100%;
+    color: black;
   }
   
   .login-box input[type="submit"] {

@@ -1,0 +1,153 @@
+/* Navbar.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+
+#btnn{
+    background-color: rgb(255, 255, 255);
+    font-size: medium;
+    border-radius: 5px;
+    border-width: 0;
+    color: black;
+    border-style: none;
+    padding: 10px;
+}
+.logout-button{
+    background-color: red;
+    font-size: medium;
+    border-radius: 5px;
+    border-width: 0;
+    border-style: none;
+    padding: 10px;
+}
+.navbar {
+    background-color: #0824ad;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+  
+.logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+  
+.nav-links li {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+  
+.nav-links li:hover {
+    color: #ff6347; /* Change color on hover */
+}
+.nav-links a{
+    text-decoration: none;
+}  
+
+.nav-links-mobile {
+    display: none;
+}
+  
+.mobile-menu-icon {
+    display: none;
+    color: white;
+    font-size: 2rem;
+    background: none;
+    border: none;
+}
+  
+.mobile-menu-icon:focus {
+    outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide links in mobile view */
+    }
+  
+    .nav-links-mobile {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Below the navbar */
+        left: 0;
+        width: 100%;
+        background-color: #333; /* Background for mobile menu */
+        z-index: 1000;
+    }
+  
+    .nav-links-mobile li {
+        text-align: center;
+        padding: 15px;
+        width: 100%;
+        border-top: 1px solid #fff; /* Separator for mobile links */
+    }
+  
+    .mobile-menu-icon {
+        display: block; /* Show mobile menu icon */
+        cursor: pointer;
+    }
+}
+/* Modal styles */
+.modal {
+    position: fixed; /* Keep fixed positioning for overlay */
+    top: 0px; /* Adjust this to the height of your navbar */
+    left: 0;
+    right: 0;
+    bottom: 0; /* Cover the remaining viewport */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    z-index: 1000; /* Above other elements */
+}
+
+.modal-content {
+    background-color: rgb(38, 65, 216);
+    padding: 20px;
+    border-radius: 5px;
+    color: black;
+    width: 400px; /* Width of the modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative; /* Allow positioning of the modal content */
+    animation: fadeIn 0.3s; /* Optional: Animation for showing the modal */
+}
+
+/* Optional fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#inp {
+    color: black;
+}
+
+.modal-content button,
+input {
+    color: black;
+}

@@ -7,7 +7,14 @@ function NavBar() {
 
   return (
     <nav className="navbar">
-      <h3 className="logo">KiloGram</h3>
+      <div className="logo-container">
+        <img
+          src="https://t4.ftcdn.net/jpg/04/40/35/67/360_F_440356706_nyzMtXHg0Rn32WHocy6lHwfraLLLsImV.jpg"
+          alt="KiloGram Icon"
+          className="logo-icon"
+        />
+        <h3 className="logo">KiloGram</h3>
+      </div>
       <ul
         className={isMobile ? "nav-links-mobile" : "nav-links"}
         onClick={() => setIsMobile(false)} // Close the menu after clicking on a link
